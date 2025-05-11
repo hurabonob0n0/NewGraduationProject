@@ -1,0 +1,21 @@
+
+-----------------------------ToDO For Server--------------------------------------
+
+1. Server Room 생성 후 Init()-> 최대 룸 크기만큼 벡터 생성
+	-> Vector 크기 확인 후 RoomFull == true 시 Room()->Start & Client로 GameStartPacket 전송
+	====> 현재 : Client -> Connect후 Server에서 바로 acceptRoom되며 SuccessLogin packet받으면 메인루프
+	====> 수정 : accept Room -> 룸 접속 이벤트 생성 후 대기....
+				-> Server에서 GameStartPacket 전송 받아야만 MainApp->Run
+
+2. 서버가 받은 패킷 이벤트를 Recv 함수 내부에서 바로 처리?	 -> 겁나 불편한 구조
+	=> 매번 Recv시 마다 Lock() &  메인 루프에서 프레임마다 또 객체들 리스트에 락 검..
+	=> 받은 데이터를 보관하는 Queue생성 후 Server의 메인루프 처음에 Queue를 복사해온다?
+	=> 매 프레임 처음에만 Write_Lock & 매프레임 마지막에 broadCast시 Read_Lock만 필요
+	=> 괜찮은 구조일 듯..
+	=> Queue내부에 들어갈 이벤트 별 Struct 구조체 생각해보기..
+
+	====> 잘 되면 클라이언트도 대칭적 구조 생성
+
+3. Server에 RoomMananger생성 후 벡터로 여러 Room 관리
+
+4. 
