@@ -1,0 +1,35 @@
+
+				Client								|	|					Server
+													|	|
+1.Service->start()(CreateIoCompletionPort)			|	|	1.Service -> start(Listener 생성 후)
+2.Dispatch()로 비동기 입출력 시작 (처음은 Connect대기)	|	|	2.Dispatch()로 비동기 입출력 시작 (처음은 Accept대기)
+3.Connect 완료 -> OnConnect함수 동작					|	|	3.Accept완료 -> Recv완료 메세지 대기 상태 
+													|	|	
+--------------------------------------------------동시 작업------------------------------------------------------		
+													|	|
+													|	|
+4.OnConnect(Send -> Login packet to Server)			|	|	
+5.ServerConnect == true 무한 대기						|	|	
+													|-->|	
+													|	|	6.첫 Recv(Login Packet)완료 시 Player ID 발급
+													|	|	  Session내부의 Player_Vector에 플레이어 넣어줌
+													|	|	7.Accept_Room(Player들을 Room에 넣어줌)
+													|	|	8.Room_Create() & Initialize()
+													|	|	9.Send->(Success_Login_Packet(PlayerID))
+													|<--|
+10.Recv(SuccessLogin)시 ClientIDSetting				|	|
+11.Player 생성 후 ID에 맞게 세팅,ServerConnect = true	|	|
+12.MainApp->Run()									|	|	
+													|	|
+													|	|
+--------------------------------------------------Main Loop-------------------------------------------------
+													|	|
+													|	|
+13.Player->(keyInput)시 Send->(Position Pakcet)		|	|
+													|-->|	
+													|	|	14.Recv(PositionPacket) -> Room내부 플레이어 위치 동기화
+													|	|	15.Recv 함수 내에서 다시 Send ->(PositionPakcet(OtherSessionID))
+													|<--|
+14.우선은 전역변수로 바꾼 뒤 OtherPlayerPosSetting		|	|
+													|	|
+													|	|

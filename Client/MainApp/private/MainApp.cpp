@@ -1,5 +1,19 @@
+#include "Client_pch.h"
 #include "MainApp.h"
 #include "DefaultObj.h"
+
+
+/*-----------------
+	For Server
+-----------------*/
+#include "Client_Globals.h"
+#include "ThreadManager.h"
+#include "Session.h"
+#include "BufferReader.h"
+#include "ClientPacketHandler.h"
+#include "ServiceManager.h"
+
+
 
 IMPLEMENT_SINGLETON(CMainApp)
 
@@ -26,6 +40,41 @@ CMainApp::CMainApp() : m_GameInstance(CGameInstance::Get_Instance()), m_Timer(CT
 {
 }
 
+
+#pragma region ForServerSession
+
+class ServerSession : public PacketSession
+{
+public:
+	~ServerSession()
+	{
+	}
+
+	virtual void OnConnected() override
+	{
+		SendBufferRef sendBuffer = ClientPacketHandler::Make_C_LOGIN(1001, 100, 10);
+		Send(sendBuffer);
+
+		g_ServerConnected.store(true);
+	}
+
+	virtual void OnRecvPacket(BYTE* buffer, int32 len) override
+	{
+		ClientPacketHandler::HandlePacket(buffer, len);
+	}
+
+	virtual void OnSend(int32 len) override
+	{
+	}
+
+	virtual void OnDisconnected() override
+	{
+	}
+};
+
+
+#pragma endregion  Dont Touch
+
 HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 {
 	Initialize_MainWindow(g_hInstance);
@@ -51,8 +100,43 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 	_matrix mat1 = XMMatrixTranslation(0.f, 5.f, 10.f);
 	m_GameInstance->AddObject("BoxObject", "BoxObject", &mat1);
 
+
+#pragma region For Server
+
+	ClientServiceRef service = MakeShared<ClientService>(
+		NetAddress(L"127.0.0.1", 7777),
+		MakeShared<IocpCore>(),
+		MakeShared<ServerSession>,
+		1);
+
+	ASSERT_CRASH(service->Start());
+
+	ServiceManager::GetInstace().SetService(service);
+
+	int32 threadCount = std::thread::hardware_concurrency();
+	for (int32 i = 0; i < threadCount; i++)
+	{
+		GThreadManager->Launch([=]()
+			{
+				while (true)
+				{
+					service->GetIocpCore()->Dispatch();
+				}
+			});
+	}
+
+
+	while (!g_ServerConnected.load()) {
+
+	}
+
+
+#pragma endregion 여기 주석처리하면 서버 연결 없이 동작 가능
+
 	return S_OK;
 }
+
+
 
 int CMainApp::Run()
 {
