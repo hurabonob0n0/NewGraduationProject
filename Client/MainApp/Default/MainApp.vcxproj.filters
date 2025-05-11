@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="00.MainApp">
+      <UniqueIdentifier>{59520129-20c4-4e6e-9401-50a4067d2712}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99.Headers">
+      <UniqueIdentifier>{d08c48da-4dc3-4224-8e27-0147924f1636}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01.DefaultObj">
+      <UniqueIdentifier>{8884c3d9-b733-491b-b349-369422f5a40f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ShaderFiles">
+      <UniqueIdentifier>{e99b9b44-ecd9-49f4-adc3-9e80038234c8}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\public\Client_Defines.h">
+      <Filter>99.Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\MainApp.h">
+      <Filter>00.MainApp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DefaultObj.h">
+      <Filter>01.DefaultObj</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\private\MainApp.cpp">
+      <Filter>00.MainApp</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\DefaultObj.cpp">
+      <Filter>01.DefaultObj</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
