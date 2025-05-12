@@ -184,8 +184,8 @@
     <ClCompile Include="..\public\Client_Globals.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="TextDocs\Client_Server_Flow.txt" />
-    <Text Include="TextDocs\ToDoList_Server.txt" />
+    <Text Include="..\..\..\TextDocs\Client_Server_Flow.txt" />
+    <Text Include="..\..\..\TextDocs\ToDoList_Server.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

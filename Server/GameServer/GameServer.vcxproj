@@ -190,6 +190,10 @@
     <ClInclude Include="Room.h" />
     <ClInclude Include="ServerPacketHandler.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\TextDocs\Client_Server_Flow.txt" />
+    <Text Include="..\..\TextDocs\ToDoList_Server.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

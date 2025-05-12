@@ -28,6 +28,9 @@
     <Filter Include="Room_Manager\Player">
       <UniqueIdentifier>{0e7a3f43-80d0-4e28-84e9-ae350855d39f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="99.Docs">
+      <UniqueIdentifier>{e93215de-dc6b-4813-9f48-013699792490}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameServer.cpp">
@@ -97,5 +100,13 @@
       <Filter>Utils</Filter>
     </ClInclude>
     <ClInclude Include="SGlobal.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\TextDocs\ToDoList_Server.txt">
+      <Filter>99.Docs</Filter>
+    </Text>
+    <Text Include="..\..\TextDocs\Client_Server_Flow.txt">
+      <Filter>99.Docs</Filter>
+    </Text>
   </ItemGroup>
 </Project>

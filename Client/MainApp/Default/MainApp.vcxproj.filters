@@ -75,10 +75,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="TextDocs\Client_Server_Flow.txt">
+    <Text Include="..\..\..\TextDocs\Client_Server_Flow.txt">
       <Filter>98.ForServer</Filter>
     </Text>
-    <Text Include="TextDocs\ToDoList_Server.txt">
+    <Text Include="..\..\..\TextDocs\ToDoList_Server.txt">
       <Filter>98.ForServer</Filter>
     </Text>
   </ItemGroup>

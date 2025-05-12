@@ -5,8 +5,10 @@
 #include "BufferReader.h"
 #include "ClientPacketHandler.h"
 
+#include <chrono>
 
-char sendData[] = "Hello World";
+using namespace std::chrono;
+
 
 class ServerSession : public PacketSession
 {
@@ -39,6 +41,22 @@ public:
 	}
 };
 
+class Main_App
+{
+public:
+	Main_App();
+	~Main_App();
+
+public:
+	void Initialize();
+	void Update();
+	void Late_Update();
+	void Release();
+
+};
+
+
+
 int main()
 {
 	this_thread::sleep_for(1s);
@@ -59,12 +77,33 @@ int main()
 			}
 	});
 
+	Main_App* Main_app = new Main_App;
+	Main_app->Initialize();
+
+	constexpr double frameDurationMs = 1000.0 / 60.0;
+
+
+
+	//
+
+
 	while (true)
 	{
-		//SendBufferRef sendBuffer = ClientPacketHandler::Make_C_LOGIN(1001, 100, 10);
-		//service->Broadcast(sendBuffer);
-		//this_thread::sleep_for(250ms);
+		auto frameStart = steady_clock::now();
+
+		Main_app->Update();
+		Main_app->Late_Update();
+
+
+		auto frameEnd = steady_clock::now();
+		duration<double, std::milli> elapsed = frameEnd - frameStart;
+
+		double sleepTime = frameDurationMs - elapsed.count();
+		if (sleepTime > 0)
+			this_thread::sleep_for(milliseconds((int)sleepTime));
 	}
+
+	delete Main_app;
 
 	GThreadManager->Join();
 }
