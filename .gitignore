@@ -410,5 +410,7 @@ FodyWeavers.xsd
 # for FBX
 *.fbx
 
+.lib
 
+.dll
 
