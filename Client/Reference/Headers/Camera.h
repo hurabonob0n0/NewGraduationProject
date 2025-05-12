@@ -7,6 +7,7 @@ class ENGINE_DLL CCamera : public CRenderObject
 {
 public:
 	CCamera();
+	CCamera(CCamera& rhs);
 	virtual ~CCamera() = default;
 
 public:
@@ -18,7 +19,7 @@ public:
 
 public:
 	static CCamera* Create();
-	CRenderObject* Clone(void* pArg);
+	CCamera* Clone(void* pArg);
 	void Free() override;
 };
 

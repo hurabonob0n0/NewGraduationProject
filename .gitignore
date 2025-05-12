@@ -401,6 +401,7 @@ FodyWeavers.xsd
 # for DDs
 *.dds
 
+
 # for JPG
 *.jpg
 
@@ -413,5 +414,3 @@ FodyWeavers.xsd
 *.lib
 
 *.dll
-
-

@@ -121,6 +121,14 @@ void CGraphic_Dev::CreateRtvAndDsvDescriptorHeaps()
         MSG_BOX("Failed to Create : DSVDescriptorHeap");
 }
 
+void CGraphic_Dev::Execute_CommandList()
+{
+    if (FAILED(m_CommandList->Close()))
+        MSG_BOX("Failed to Close : CommandList");
+    ID3D12CommandList* cmdLists[] = { m_CommandList };
+    m_CommandQueue->ExecuteCommandLists(_countof(cmdLists), cmdLists);
+}
+
 void CGraphic_Dev::Set_WindowInfo(WindowInfo windowInfo)
 {
     m_ClientWidth = windowInfo.Wincx;
@@ -382,7 +390,6 @@ void CGraphic_Dev::Present()
     m_SwapChain->Present(0, 0);
     m_CurrBackBuffer = (m_CurrBackBuffer + 1) % SwapChainBufferCount;
 
-    //FlushCommandQueue();
 }
 
 void CGraphic_Dev::Free()

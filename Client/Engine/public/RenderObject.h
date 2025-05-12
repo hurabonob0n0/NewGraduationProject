@@ -16,7 +16,7 @@ public:
 
 public:
 	virtual void Set_ObjCBIndex(const UINT& index);
-	//virtual void Set_MatIndex(const UINT& index) { m_MatIndex = index; }
+	virtual void Set_MatIndex(const UINT& index) { m_MatIndex = index; }
 	virtual void Set_RenderGroup(CRenderer::RENDERGROUP RG);
 	_matrix	Get_WorldMatrix() { return m_TransformCom->Get_WorldMatrix(); }
 
@@ -39,7 +39,7 @@ protected:
 
 protected:
 	UINT m_objCBIndex = -1;
-	//UINT m_MatIndex = -1;
+	UINT m_MatIndex = -1;
 	CRenderer::RENDERGROUP m_RG = CRenderer::RENDERGROUP::RG_PRIORITY;
 
 public:

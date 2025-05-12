@@ -85,6 +85,18 @@
     <Filter Include="02.Utilities\99.Utilities">
       <UniqueIdentifier>{c74e15b3-cb11-4d8e-959c-5fae36520f73}</UniqueIdentifier>
     </Filter>
+    <Filter Include="02.Utilities\01.Material">
+      <UniqueIdentifier>{104183a5-8238-49cc-9805-460946b5d213}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Utilities\02.Texture">
+      <UniqueIdentifier>{1b9e0eec-ca44-41ee-ac57-4ad663f20a66}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Utilities\02.Texture\TextureMgr">
+      <UniqueIdentifier>{40c9ea6a-cdb0-4053-8f95-422ba060fabe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02.Utilities\00.Component\03.Model">
+      <UniqueIdentifier>{087a9ae9-b7f8-4bf3-8655-97cb3cd566b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Engine_Defines.h">
@@ -180,6 +192,27 @@
     <ClInclude Include="..\public\UploadBuffer.hpp">
       <Filter>02.Utilities\99.Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="..\public\MaterialMgr.h">
+      <Filter>02.Utilities\01.Material</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Texture.h">
+      <Filter>02.Utilities\02.Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\TextureMgr.h">
+      <Filter>02.Utilities\02.Texture\TextureMgr</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\DDSTextureLoader.h">
+      <Filter>02.Utilities\99.Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Bone.h">
+      <Filter>02.Utilities\00.Component\03.Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Mesh.h">
+      <Filter>02.Utilities\00.Component\03.Model</Filter>
+    </ClInclude>
+    <ClInclude Include="..\public\Model.h">
+      <Filter>02.Utilities\00.Component\03.Model</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\private\Base.cpp">
@@ -259,6 +292,27 @@
     </ClCompile>
     <ClCompile Include="..\private\Engine_Struct.cpp">
       <Filter>98.Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\MaterialMgr.cpp">
+      <Filter>02.Utilities\01.Material</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Texture.cpp">
+      <Filter>02.Utilities\02.Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\TextureMgr.cpp">
+      <Filter>02.Utilities\02.Texture\TextureMgr</Filter>
+    </ClCompile>
+    <ClCompile Include="..\public\DDSTextureLoader.cpp">
+      <Filter>02.Utilities\99.Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Bone.cpp">
+      <Filter>02.Utilities\00.Component\03.Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Mesh.cpp">
+      <Filter>02.Utilities\00.Component\03.Model</Filter>
+    </ClCompile>
+    <ClCompile Include="..\private\Model.cpp">
+      <Filter>02.Utilities\00.Component\03.Model</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

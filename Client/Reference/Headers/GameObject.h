@@ -24,7 +24,7 @@ public:
 
 protected:
 	CTransform* m_TransformCom = {};
-	class CGameInstance* m_GameInstance = {};
+	class CGameInstance* m_GameInstance;
 
 protected:
 	//unordered_map<string, class CComponent*> m_Components;

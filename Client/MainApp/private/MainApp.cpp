@@ -1,19 +1,8 @@
-#include "Client_pch.h"
 #include "MainApp.h"
 #include "DefaultObj.h"
-
-
-/*-----------------
-	For Server
------------------*/
-#include "Client_Globals.h"
-#include "ThreadManager.h"
-#include "Session.h"
-#include "BufferReader.h"
-#include "ClientPacketHandler.h"
-#include "ServiceManager.h"
-
-
+#include "Camera_Free.h"
+#include "BoxObj.h"
+#include "Tank.h"
 
 IMPLEMENT_SINGLETON(CMainApp)
 
@@ -29,6 +18,8 @@ MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 	PSTR cmdLine, int showCmd)
 {
+	//_CrtSetBreakAlloc(8420);
+
 	CMainApp* mainApp = CMainApp::Get_Instance();
 	if (FAILED(mainApp->Initialize(hInstance)))
 		return 0;
@@ -39,41 +30,6 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE prevInstance,
 CMainApp::CMainApp() : m_GameInstance(CGameInstance::Get_Instance()), m_Timer(CTimer::Get_Instance()), m_Input_Dev(CRawInput::Get_Instance())
 {
 }
-
-
-#pragma region ForServerSession
-
-class ServerSession : public PacketSession
-{
-public:
-	~ServerSession()
-	{
-	}
-
-	virtual void OnConnected() override
-	{
-		SendBufferRef sendBuffer = ClientPacketHandler::Make_C_LOGIN(1001, 100, 10);
-		Send(sendBuffer);
-
-		g_ServerConnected.store(true);
-	}
-
-	virtual void OnRecvPacket(BYTE* buffer, int32 len) override
-	{
-		ClientPacketHandler::HandlePacket(buffer, len);
-	}
-
-	virtual void OnSend(int32 len) override
-	{
-	}
-
-	virtual void OnDisconnected() override
-	{
-	}
-};
-
-
-#pragma endregion  Dont Touch
 
 HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 {
@@ -90,53 +46,30 @@ HRESULT CMainApp::Initialize(HINSTANCE g_hInstance)
 
 	m_GameInstance->AddPrototype("TransformCom", CTransform::Create(GETDEVICE,GETCOMMANDLIST));
 	m_GameInstance->AddPrototype("VIBuffer_GeosCom", CVIBuffer_Geos::Create(GETDEVICE, GETCOMMANDLIST));
+	m_GameInstance->AddPrototype("ModelCom", CModel::Create(m_GameInstance->Get_Device(), m_GameInstance->Get_CommandList(), CModel::TYPE_NONANIM, "../bin/Models/Tank/M1A2.FBX",
+		XMMatrixScaling(0.1f,0.1f,0.1f)* XMMatrixTranslation(0.f,12.f,20.f)));
 
-	m_GameInstance->Add_PrototypeObject("Camera", CCamera::Create());
-	m_GameInstance->Add_PrototypeObject("BoxObject", CDefaultObj::Create());
+	m_GameInstance->Add_PrototypeObject("Camera", CCamera_Free::Create());
+	m_GameInstance->Add_PrototypeObject("DefaultObject", CDefaultObj::Create());
+	m_GameInstance->Add_PrototypeObject("BoxObject", CBoxObj::Create());
+	m_GameInstance->Add_PrototypeObject("Tank", CTank::Create());
 
 	_matrix mat = XMMatrixTranslation(0.f, 5.f, -5.f);
 	m_GameInstance->AddObject("Camera", "Camera", &mat);
 
 	_matrix mat1 = XMMatrixTranslation(0.f, 5.f, 10.f);
-	m_GameInstance->AddObject("BoxObject", "BoxObject", &mat1);
+	m_GameInstance->AddObject("DefaultObject", "DefaultObject", &mat1);
 
+	m_GameInstance->AddObject("BoxObject", "BoxObject", nullptr);
 
-#pragma region For Server
+	m_GameInstance->AddObject("Tank", "Tank", nullptr);
 
-	ClientServiceRef service = MakeShared<ClientService>(
-		NetAddress(L"127.0.0.1", 7777),
-		MakeShared<IocpCore>(),
-		MakeShared<ServerSession>,
-		1);
+	m_GameInstance->Execute_CommandList();
 
-	ASSERT_CRASH(service->Start());
-
-	ServiceManager::GetInstace().SetService(service);
-
-	int32 threadCount = std::thread::hardware_concurrency();
-	for (int32 i = 0; i < threadCount; i++)
-	{
-		GThreadManager->Launch([=]()
-			{
-				while (true)
-				{
-					service->GetIocpCore()->Dispatch();
-				}
-			});
-	}
-
-
-	while (!g_ServerConnected.load()) {
-
-	}
-
-
-#pragma endregion 여기 주석처리하면 서버 연결 없이 동작 가능
+	m_GameInstance->Flush_CommandQueue();
 
 	return S_OK;
 }
-
-
 
 int CMainApp::Run()
 {
@@ -327,6 +260,8 @@ void CMainApp::CalculateFrameStats()
 
 void CMainApp::Free()
 {
+	m_GameInstance->Release_Engine();
+
 	Safe_Release(m_Timer);
 	Safe_Release(m_Input_Dev);
 	Safe_Release(m_GameInstance);

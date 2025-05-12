@@ -1,4 +1,4 @@
-#include "FrameResourceMgr.h"
+ï»¿#include "FrameResourceMgr.h"
 
 IMPLEMENT_SINGLETON(CFrameResourceMgr);
 
@@ -38,7 +38,7 @@ void CFrameResourceMgr::BeginFrame()
 
 	auto& frame = m_FrameResources[m_CurrentFrameIndex];
 
-	// GPU°¡ ÀÌ FrameResource¸¦ ¾ÆÁ÷ »ç¿ë ÁßÀÌ¸é ±â´Ù¸²
+	// GPUê°€ ì´ FrameResourceë¥¼ ì•„ì§ ì‚¬ìš© ì¤‘ì´ë©´ ê¸°ë‹¤ë¦¼
 	if (m_MainFence->GetCompletedValue() < frame->Get_Fence_Value())
 	{
 		HANDLE eventHandle = CreateEvent(nullptr, FALSE, FALSE, nullptr);
@@ -52,9 +52,11 @@ void CFrameResourceMgr::Reset_CommandList_and_Allocator(ID3D12PipelineState* PSO
 {
 	auto& frame = m_FrameResources[m_CurrentFrameIndex];
 
-	frame->Get_Current_CmdListAlloc()->Reset();
+	if (FAILED(frame->Get_Current_CmdListAlloc()->Reset()))
+		MSG_BOX("Failed to Reset : Allocator");
 
-	m_CommandList->Reset(frame->Get_Current_CmdListAlloc(), PSO);
+	if (FAILED(m_CommandList->Reset(frame->Get_Current_CmdListAlloc(), PSO)))
+		MSG_BOX("Failed to Reset : CommandList");
 }
 
 void CFrameResourceMgr::SignalAndAdvance()
@@ -68,22 +70,22 @@ void CFrameResourceMgr::Flush_CommandQueue()
 {
 	m_MainFenceValue++;
 
-	// Ä¿¸ÇµåµéÀÇ Ã³¸®´Â GPU¿¡¼­ ÁøÇàµÇ±â ¶§¹®¿¡ ¾ğÁ¦ Ä¿¸ÇµåµéÀÌ Ã³¸®‰ç´ÂÁö¸¦ CPU¿¡¼­ ¾Ë±â Èûµì´Ï´Ù.
-	// ±×·¯¹Ç·Î ¸ğµç Ä¿¸Çµå°¡ Ã³¸®‰çÀ» ¶§ »õ Ææ½º ÁöÁ¡À» ¼³Á¤ÇÏ´Â ÀÎ½ºÆ®·°¼ÇÀ» Ä¿¸Çµå Å¥¿¡ Ãß°¡ÇÕ´Ï´Ù.
-	// Signal()À» È£ÃâÇÏ±â Àü¿¡ Á¦ÃâÇÑ Ä¿¸ÇµåµéÀÌ Ã³¸®µÇ±â Àü±îÁö »õ Ææ½º ÁöÁ¡Àº ¼³Á¤µÇÁö ¾Ê½À´Ï´Ù.
+	// ì»¤ë§¨ë“œë“¤ì˜ ì²˜ë¦¬ëŠ” GPUì—ì„œ ì§„í–‰ë˜ê¸° ë•Œë¬¸ì— ì–¸ì œ ì»¤ë§¨ë“œë“¤ì´ ì²˜ë¦¬ë¬ëŠ”ì§€ë¥¼ CPUì—ì„œ ì•Œê¸° í˜ë“­ë‹ˆë‹¤.
+	// ê·¸ëŸ¬ë¯€ë¡œ ëª¨ë“  ì»¤ë§¨ë“œê°€ ì²˜ë¦¬ë¬ì„ ë•Œ ìƒˆ íœìŠ¤ ì§€ì ì„ ì„¤ì •í•˜ëŠ” ì¸ìŠ¤íŠ¸ëŸ­ì…˜ì„ ì»¤ë§¨ë“œ íì— ì¶”ê°€í•©ë‹ˆë‹¤.
+	// Signal()ì„ í˜¸ì¶œí•˜ê¸° ì „ì— ì œì¶œí•œ ì»¤ë§¨ë“œë“¤ì´ ì²˜ë¦¬ë˜ê¸° ì „ê¹Œì§€ ìƒˆ íœìŠ¤ ì§€ì ì€ ì„¤ì •ë˜ì§€ ì•ŠìŠµë‹ˆë‹¤.
 	if (FAILED(m_CommandQueue->Signal(m_MainFence, m_MainFenceValue)))
 		MSG_BOX("Failed to Signal : Fence");
 
-	// GPU°¡ »õ Ææ½º ÁöÁ¡±îÁöÀÇ ¸í·ÉµéÀ» ¿Ï·áÇÒ ¶§±îÁö ±â´Ù¸³´Ï´Ù.
+	// GPUê°€ ìƒˆ íœìŠ¤ ì§€ì ê¹Œì§€ì˜ ëª…ë ¹ë“¤ì„ ì™„ë£Œí•  ë•Œê¹Œì§€ ê¸°ë‹¤ë¦½ë‹ˆë‹¤.
 	if (m_MainFence->GetCompletedValue() < m_MainFenceValue)
 	{
 		HANDLE eventHandle = CreateEventEx(nullptr, nullptr, 0, EVENT_ALL_ACCESS);
 
-		// GPU°¡ »õ Ææ½º ÁöÁ¡¿¡ µµ´ŞÇßÀ¸¸é ÀÌº¥Æ®¸¦ ¹ßµ¿½ÃÅµ´Ï´Ù.
+		// GPUê°€ ìƒˆ íœìŠ¤ ì§€ì ì— ë„ë‹¬í–ˆìœ¼ë©´ ì´ë²¤íŠ¸ë¥¼ ë°œë™ì‹œí‚µë‹ˆë‹¤.
 		if (FAILED(m_MainFence->SetEventOnCompletion(m_MainFenceValue, eventHandle)))
 			MSG_BOX("Failed to Create : Event");
 
-		// GPU°¡ »õ Ææ½º¸¦ ¼³Á¤ÇÏ°í ÀÌº¥Æ®°¡ ¹ßµ¿µÉ¶§±îÁö ±â´Ù¸³´Ï´Ù.
+		// GPUê°€ ìƒˆ íœìŠ¤ë¥¼ ì„¤ì •í•˜ê³  ì´ë²¤íŠ¸ê°€ ë°œë™ë ë•Œê¹Œì§€ ê¸°ë‹¤ë¦½ë‹ˆë‹¤.
 		WaitForSingleObject(eventHandle, INFINITE);
 		CloseHandle(eventHandle);
 	}

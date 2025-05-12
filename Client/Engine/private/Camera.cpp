@@ -5,6 +5,10 @@ CCamera::CCamera() : CRenderObject()
 {
 }
 
+CCamera::CCamera(CCamera& rhs) : CRenderObject(rhs)
+{
+}
+
 HRESULT CCamera::Initialize_Prototype()
 {
 	__super::Initialize_Prototype();
@@ -22,20 +26,20 @@ HRESULT CCamera::Initialize(void* pArg)
 void CCamera::Tick(float fTimeDelta)
 {
 	if (m_GameInstance->Key_Pressing('W'))
-		m_TransformCom->Go_Straight(fTimeDelta * 10.f);
+		m_TransformCom->Go_Straight(fTimeDelta * 50.f);
 
 	if (m_GameInstance->Key_Pressing('S'))
-		m_TransformCom->Go_Backward(fTimeDelta * 10.f);
+		m_TransformCom->Go_Backward(fTimeDelta * 50.f);
 
 	if (m_GameInstance->Key_Pressing('A'))
-		m_TransformCom->Go_Left(fTimeDelta * 10.f);
+		m_TransformCom->Go_Left(fTimeDelta * 50.f);
 
 	if (m_GameInstance->Key_Pressing('D'))
-		m_TransformCom->Go_Right(fTimeDelta * 10.f);
+		m_TransformCom->Go_Right(fTimeDelta * 50.f);
 
-	m_TransformCom->Turn({0.f,1.f,0.f,0.f}, fTimeDelta * (float)m_GameInstance->Get_Mouse_XDelta() * 0.5f);
+	m_TransformCom->Turn({0.f,1.f,0.f,0.f}, fTimeDelta * (float)m_GameInstance->Get_Mouse_XDelta() );
 
-	m_TransformCom->Turn(m_TransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * (float)m_GameInstance->Get_Mouse_YDelta() * 0.5f);
+	m_TransformCom->Turn(m_TransformCom->Get_State(CTransform::STATE_RIGHT), fTimeDelta * (float)m_GameInstance->Get_Mouse_YDelta() );
 
 	__super::Tick(fTimeDelta);
 
@@ -43,9 +47,11 @@ void CCamera::Tick(float fTimeDelta)
 
 void CCamera::LateTick(float fTimeDelta)
 {
+	//__super::LateTick(fTimeDelta);
+
 	XMMATRIX proj = XMMatrixPerspectiveFovLH(
 		XMConvertToRadians(60.0f), // Field of View (radian ´ÜÀ§)
-		2560.f/1440.f,               // Aspect ratio = width / height
+		1.7777,               // Aspect ratio = width / height
 		1.f,                     // Near clipping plane
 		1000.f                       // Far clipping plane
 	);
@@ -88,9 +94,9 @@ CCamera* CCamera::Create()
 	return pCamera;
 }
 
-CRenderObject* CCamera::Clone(void* pArg)
+CCamera* CCamera::Clone(void* pArg)
 {
-	CRenderObject* pInstance = new CRenderObject;
+	CCamera* pInstance = new CCamera(*this);
 	pInstance->Initialize(pArg);
 	return pInstance;
 }

@@ -13,20 +13,11 @@
     <Filter Include="ShaderFiles">
       <UniqueIdentifier>{e99b9b44-ecd9-49f4-adc3-9e80038234c8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="98.ForServer">
-      <UniqueIdentifier>{67c7b3e4-f2e8-4647-bb0d-72e66bd62d95}</UniqueIdentifier>
+    <Filter Include="02.Camera">
+      <UniqueIdentifier>{32382020-070a-4b77-ba66-9e95a2d49aa6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="98.ForServer\PacketHandler">
-      <UniqueIdentifier>{29ae482e-6f93-4a6d-a701-5d1beddb0302}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="98.ForServer\ServiceManager">
-      <UniqueIdentifier>{047f567c-a63d-4219-a763-da5eb22dad51}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Pch">
-      <UniqueIdentifier>{54307f49-d29f-4c94-8e6c-adde1d706f31}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="98.ForServer\ServerSession">
-      <UniqueIdentifier>{3120e70d-9dfa-4688-aca0-7d574fafbe48}</UniqueIdentifier>
+    <Filter Include="01.DefaultObj\Tank">
+      <UniqueIdentifier>{17488b75-722f-4abb-8ebd-f14f15f9b763}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -39,18 +30,14 @@
     <ClInclude Include="..\public\DefaultObj.h">
       <Filter>01.DefaultObj</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Client_pch.h">
-      <Filter>Pch</Filter>
+    <ClInclude Include="..\public\Camera_Free.h">
+      <Filter>02.Camera</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\Client_Globals.h" />
-    <ClInclude Include="..\public\ServiceManager.h">
-      <Filter>98.ForServer\ServiceManager</Filter>
+    <ClInclude Include="..\public\BoxObj.h">
+      <Filter>01.DefaultObj</Filter>
     </ClInclude>
-    <ClInclude Include="..\public\ClientPacketHandler.h">
-      <Filter>98.ForServer\PacketHandler</Filter>
-    </ClInclude>
-    <ClInclude Include="..\public\ServerSession.h">
-      <Filter>98.ForServer\ServerSession</Filter>
+    <ClInclude Include="..\public\Tank.h">
+      <Filter>01.DefaultObj\Tank</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -60,26 +47,14 @@
     <ClCompile Include="..\private\DefaultObj.cpp">
       <Filter>01.DefaultObj</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\Client_pch.cpp">
-      <Filter>Pch</Filter>
+    <ClCompile Include="..\private\Camera_Free.cpp">
+      <Filter>02.Camera</Filter>
     </ClCompile>
-    <ClCompile Include="..\public\Client_Globals.cpp" />
-    <ClCompile Include="..\private\ServiceManager.cpp">
-      <Filter>98.ForServer\ServiceManager</Filter>
+    <ClCompile Include="..\private\BoxObj.cpp">
+      <Filter>01.DefaultObj</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ClientPacketHandler.cpp">
-      <Filter>98.ForServer\PacketHandler</Filter>
+    <ClCompile Include="..\private\Tank.cpp">
+      <Filter>01.DefaultObj\Tank</Filter>
     </ClCompile>
-    <ClCompile Include="..\private\ServerSession.cpp">
-      <Filter>98.ForServer\ServerSession</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="TextDocs\Client_Server_Flow.txt">
-      <Filter>98.ForServer</Filter>
-    </Text>
-    <Text Include="TextDocs\ToDoList_Server.txt">
-      <Filter>98.ForServer</Filter>
-    </Text>
   </ItemGroup>
 </Project>

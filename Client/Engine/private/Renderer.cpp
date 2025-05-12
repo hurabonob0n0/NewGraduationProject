@@ -14,10 +14,8 @@ CRenderer::CRenderer(CRenderer& rhs) : CComponent(rhs)
 void CRenderer::AddtoRenderObjects(RENDERGROUP RG, CRenderObject* pRenderObject)
 {
     pRenderObject->Set_ObjCBIndex(m_vRenderObjects[RG].size());
-    _matrix mat = pRenderObject->Get_WorldMatrix();
-    CRenderObject* pInstance = pRenderObject->Clone(&mat);
-    pInstance->Set_ObjCBIndex(m_vRenderObjects[RG].size());
-    m_vRenderObjects[RG].push_back(pInstance);
+    Safe_AddRef(pRenderObject);
+    m_vRenderObjects[RG].push_back(pRenderObject);
 }
 
 void CRenderer::ResetRenderObjects()
@@ -89,7 +87,10 @@ void CRenderer::Render_Priority()
     for (auto& pGameObject : m_vRenderObjects[RG_PRIORITY])
     {
         pGameObject->Render();
+
+        Safe_Release(pGameObject);
     }
+    m_vRenderObjects[RG_PRIORITY].clear();
 }
 
 void CRenderer::Render_NonLight()
@@ -97,7 +98,11 @@ void CRenderer::Render_NonLight()
     for (auto& pGameObject : m_vRenderObjects[RG_NONLIGHT])
     {
         pGameObject->Render();
+
+        Safe_Release(pGameObject);
     }
+
+    m_vRenderObjects[RG_NONLIGHT].clear();
 }
 
 void CRenderer::Render_NonBlend()
@@ -105,7 +110,10 @@ void CRenderer::Render_NonBlend()
     for (auto& pGameObject : m_vRenderObjects[RG_NONBLEND])
     {
         pGameObject->Render();
+
+        Safe_Release(pGameObject);
     }
+    m_vRenderObjects[RG_NONBLEND].clear();
 }
 
 void CRenderer::Render_Blend()
@@ -113,7 +121,10 @@ void CRenderer::Render_Blend()
     for (auto& pGameObject : m_vRenderObjects[RG_BLEND])
     {
         pGameObject->Render();
+
+        Safe_Release(pGameObject);
     }
+    m_vRenderObjects[RG_BLEND].clear();
 }
 
 void CRenderer::Render_UI()
@@ -121,7 +132,10 @@ void CRenderer::Render_UI()
     for (auto& pGameObject : m_vRenderObjects[RG_UI])
     {
         pGameObject->Render();
+
+        Safe_Release(pGameObject);
     }
+    m_vRenderObjects[RG_UI].clear();
 }
 
 CRenderer* CRenderer::Create(ID3D12Device* pDevice, ID3D12GraphicsCommandList* pCommandList)

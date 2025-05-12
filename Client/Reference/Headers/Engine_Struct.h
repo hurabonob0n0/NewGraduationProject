@@ -91,6 +91,21 @@ namespace Engine
 		float Roughness = 0.25f;
 		DirectX::XMFLOAT4X4 MatTransform = XMFLOAT4X4{};
 	};
+
+	struct ENGINE_DLL MaterialData
+	{
+		DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
+		DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
+		float Roughness = 0.5f;
+
+		// Used in texture mapping.
+		DirectX::XMFLOAT4X4 MatTransform = XMFLOAT4X4{};
+
+		UINT DiffuseMapIndex = 0;
+		UINT NormalMapIndex = 0;
+		UINT MaterialPad1;
+		UINT MaterialPad2;
+	};
 }
 
 namespace Engine

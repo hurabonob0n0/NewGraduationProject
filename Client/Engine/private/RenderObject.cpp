@@ -9,7 +9,6 @@ CRenderObject::CRenderObject() : CGameObject()
 
 CRenderObject::CRenderObject(CRenderObject& rhs) : CGameObject(rhs)
 {
-	m_objCBIndex = rhs.m_objCBIndex;
 }
 
 void CRenderObject::Set_ObjCBIndex(const UINT& index)
@@ -56,10 +55,11 @@ void CRenderObject::LateTick(float fTimeDelta)
 
 	ObjectConstants objConstants{};
 	XMStoreFloat4x4(&objConstants.World, XMMatrixTranspose(world));
-	XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(world));
-	//objConstants.MaterialIndex = m_MatIndex;
+	XMStoreFloat4x4(&objConstants.TexTransform, XMMatrixTranspose(textransform));
+	objConstants.MaterialIndex = m_MatIndex;
 
 	currObjectCB->CopyData(m_objCBIndex, objConstants);
+	
 }
 
 void CRenderObject::Render()

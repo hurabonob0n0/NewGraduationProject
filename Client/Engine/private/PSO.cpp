@@ -64,6 +64,8 @@ HRESULT CPSO::Initialize(ID3D12RootSignature* pRootSignature, CShader* VS, CShad
     case Engine::CPSO::IT_POS_NOR:
         break;
     case Engine::CPSO::IT_POS_NOR_TEX:
+        m_PsoDesc.RasterizerState.CullMode = D3D12_CULL_MODE_NONE;
+        m_PsoDesc.DepthStencilState.DepthFunc = D3D12_COMPARISON_FUNC_LESS_EQUAL;
         break;
     case Engine::CPSO::IT_CUBE_TEX:
         break;
@@ -76,8 +78,6 @@ HRESULT CPSO::Initialize(ID3D12RootSignature* pRootSignature, CShader* VS, CShad
     default:
         break;
     }
-
-   
 
     return pDevice->CreateGraphicsPipelineState(&m_PsoDesc, IID_PPV_ARGS(&m_PSO));
 }

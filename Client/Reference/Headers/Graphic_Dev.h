@@ -15,6 +15,8 @@ public:
 	ID3D12GraphicsCommandList*	Get_CommandList() { return m_CommandList; }
 	ID3D12CommandQueue*			Get_CommandQueue() { return m_CommandQueue; }
 	ID3D12Device*				Get_Device() { return m_Device; }
+	UINT						Get_CBVUAVSRVHeapSize() { return m_CbvSrvUavDescriptorSize; }
+	void Execute_CommandList();
 
 #pragma region Initialize GraphicDev
 public:
@@ -24,6 +26,7 @@ private:
 	void CreateCommandObjects();
 	void CreateSwapChain();
 	void CreateRtvAndDsvDescriptorHeaps();
+
 
 public:
 	void Set_WindowInfo(WindowInfo windowInfo);
@@ -77,8 +80,8 @@ private:
 	DXGI_FORMAT                 m_DepthStencilFormat = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
 	//Window Info
-	int                         m_ClientWidth = 2560;
-	int                         m_ClientHeight = 1440;
+	int                         m_ClientWidth = 1920;
+	int                         m_ClientHeight = 1080;
 	HWND                        m_hMainWnd = nullptr;
 	bool                        m_isFullScreen = false;
 

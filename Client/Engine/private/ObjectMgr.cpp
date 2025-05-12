@@ -81,5 +81,9 @@ void CObjectMgr::Free()
         }
         pair.second.clear();
     }
+
+    for (auto& obj : m_Prototypes)
+        Safe_Release(obj.second);
+
     m_Layers.clear();
 }
