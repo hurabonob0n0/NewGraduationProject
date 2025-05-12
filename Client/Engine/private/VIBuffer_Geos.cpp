@@ -80,7 +80,7 @@ HRESULT CVIBuffer_Geos::Initialize_Prototype()
 		sphere.Vertices.size() +
 		cylinder.Vertices.size();
 
-	std::vector<VTXNORTEX> vertices(m_VertexNum);
+	std::vector<VTXMESH> vertices(m_VertexNum);
 
 	UINT k = 0;
 	for (size_t i = 0; i < box.Vertices.size(); ++i, ++k)
@@ -88,6 +88,7 @@ HRESULT CVIBuffer_Geos::Initialize_Prototype()
 		vertices[k].vPosition = box.Vertices[i].Position;
 		vertices[k].vNormal = box.Vertices[i].Normal;
 		vertices[k].vTexcoord = box.Vertices[i].TexC;
+		vertices[k].vTangent = box.Vertices[i].TangentU;
 	}
 
 	for (size_t i = 0; i < grid.Vertices.size(); ++i, ++k)
@@ -95,6 +96,7 @@ HRESULT CVIBuffer_Geos::Initialize_Prototype()
 		vertices[k].vPosition = grid.Vertices[i].Position;
 		vertices[k].vNormal = grid.Vertices[i].Normal;
 		vertices[k].vTexcoord = grid.Vertices[i].TexC;
+		vertices[k].vTangent = grid.Vertices[i].TangentU;
 	}
 
 	for (size_t i = 0; i < sphere.Vertices.size(); ++i, ++k)
@@ -102,6 +104,7 @@ HRESULT CVIBuffer_Geos::Initialize_Prototype()
 		vertices[k].vPosition = sphere.Vertices[i].Position;
 		vertices[k].vNormal = sphere.Vertices[i].Normal;
 		vertices[k].vTexcoord = sphere.Vertices[i].TexC;
+		vertices[k].vTangent = sphere.Vertices[i].TangentU;
 	}
 
 	for (size_t i = 0; i < cylinder.Vertices.size(); ++i, ++k)
@@ -109,6 +112,7 @@ HRESULT CVIBuffer_Geos::Initialize_Prototype()
 		vertices[k].vPosition = cylinder.Vertices[i].Position;
 		vertices[k].vNormal = cylinder.Vertices[i].Normal;
 		vertices[k].vTexcoord = cylinder.Vertices[i].TexC;
+		vertices[k].vTangent = cylinder.Vertices[i].TangentU;
 	}
 
 	std::vector<std::uint16_t> indices;
@@ -120,14 +124,14 @@ HRESULT CVIBuffer_Geos::Initialize_Prototype()
 	m_IndexNum = indices.size();
 	m_IndexFormat = DXGI_FORMAT_R16_UINT;
 
-	const UINT vbByteSize = m_VertexNum * sizeof(VTXNORTEX);
+	const UINT vbByteSize = m_VertexNum * sizeof(VTXMESH);
 	const UINT ibByteSize = m_IndexNum * sizeof(std::uint16_t);
 
 	__super::Create_Buffer(&m_VertexBufferGPU, &m_VertexBufferUploader, vertices.data(), vbByteSize);
 
 	__super::Create_Buffer(&m_IndexBufferGPU, &m_IndexBufferUploader, indices.data(), ibByteSize);
 
-	m_VertexByteStride = sizeof(VTXNORTEX);
+	m_VertexByteStride = sizeof(VTXMESH);
 	m_VertexBufferByteSize = vbByteSize;
 	m_IndexFormat = DXGI_FORMAT_R16_UINT;
 	m_IndexBufferByteSize = ibByteSize;

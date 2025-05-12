@@ -13,6 +13,7 @@ void CFrameResource::Initialize(ID3D12Device* device)
 
     m_PassCB = CUploadBuffer<PassConstants>::Create(device, 1, true);
     m_ObjectCB = CUploadBuffer<ObjectConstants>::Create(device, 1000, true);
+    m_MaterialCB = CUploadBuffer<MaterialData>::Create(device, 1000, true);
 }
 
 CFrameResource* CFrameResource::Create(ID3D12Device* device)

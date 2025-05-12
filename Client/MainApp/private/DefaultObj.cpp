@@ -1,4 +1,3 @@
-#include "Client_pch.h"
 #include "DefaultObj.h"
 #include "GameInstance.h"
 
@@ -8,23 +7,32 @@ CDefaultObj::CDefaultObj() : CRenderObject()
 
 CDefaultObj::CDefaultObj(CDefaultObj& rhs) : CRenderObject(rhs)
 {
-    m_RG = rhs.m_RG;
 }
 
 HRESULT CDefaultObj::Initialize_Prototype()
 {
     __super::Initialize_Prototype();
 
-    m_RG = CRenderer::RG_BLEND;
-
     return S_OK;
 }
 
 HRESULT CDefaultObj::Initialize(void* pArg)
 {
+    m_RG = CRenderer::RG_NONBLEND;
+
     __super::Initialize(pArg);
 
+    MaterialData MD{};
+
+    XMStoreFloat4x4( &MD.MatTransform, XMMatrixIdentity());
+    MD.DiffuseMapIndex = m_GameInstance->Add_Texture("BrickDiffuse", CTexture::Create(L"../bin/Models/Basic/bricks.dds"));
+    MD.NormalMapIndex = m_GameInstance->Add_Texture("BrickNormal", CTexture::Create(L"../bin/Models/Basic/bricks_nmap.dds"));
+
+    Set_MatIndex(m_GameInstance->Add_Material("BrickMat", MD));
+
     m_VIBuffer = (CVIBuffer_Geos*)m_GameInstance->Get_Component("VIBuffer_GeosCom");
+
+
 
     return S_OK;
 }

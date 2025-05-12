@@ -401,3 +401,14 @@ FodyWeavers.xsd
 # for DDs
 *.dds
 
+*.jpg
+
+# for PNG
+*.png
+
+# for FBX
+*.fbx
+
+*.lib
+
+*.dll

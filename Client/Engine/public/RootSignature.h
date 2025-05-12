@@ -20,7 +20,10 @@ public:
 	CRootSignature* PushTable(D3D12_DESCRIPTOR_RANGE_TYPE rangeType, UINT shaderRegister, UINT registerSpace, UINT numDescriptors, D3D12_SHADER_VISIBILITY visibility);
 
 public:
-	//CRootSignature* CreateDefaultGraphicsRootSignature();
+	CRootSignature* CreateDefaultGraphicsRootSignature1();
+
+public:
+	CRootSignature* CreateDefaultGraphicsRootSignature();
 	 
 	vector<D3D12_ROOT_PARAMETER>	mParams{};
 	vector<D3D12_DESCRIPTOR_RANGE>	mRanges{};
