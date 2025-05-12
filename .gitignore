@@ -401,3 +401,14 @@ FodyWeavers.xsd
 # for DDs
 *.dds
 
+# for JPG
+*.jpg
+
+# for PNG
+*.png
+
+# for FBX
+*.fbx
+
+
+

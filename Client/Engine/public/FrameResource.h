@@ -23,6 +23,7 @@ private:
 public:
     CUploadBuffer<PassConstants>* m_PassCB = nullptr;
     CUploadBuffer<ObjectConstants>* m_ObjectCB = nullptr;
+    CUploadBuffer< MaterialData>* m_MaterialCB = nullptr;
 
 public:
     static CFrameResource* Create(ID3D12Device* device);

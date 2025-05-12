@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\public\Base.h" />
+    <ClInclude Include="..\public\Bone.h" />
     <ClInclude Include="..\public\Camera.h" />
     <ClInclude Include="..\public\ComponentMgr.h" />
     <ClInclude Include="..\public\Component.h" />
     <ClInclude Include="..\public\d3dUtil.h" />
+    <ClInclude Include="..\public\DDSTextureLoader.h" />
     <ClInclude Include="..\public\Engine_Defines.h" />
     <ClInclude Include="..\public\Engine_Function.h" />
     <ClInclude Include="..\public\Engine_Macro.h" />
@@ -35,6 +37,9 @@
     <ClInclude Include="..\public\GameObject.h" />
     <ClInclude Include="..\public\GeometryGenerator.h" />
     <ClInclude Include="..\public\Graphic_Dev.h" />
+    <ClInclude Include="..\public\MaterialMgr.h" />
+    <ClInclude Include="..\public\Mesh.h" />
+    <ClInclude Include="..\public\Model.h" />
     <ClInclude Include="..\public\ObjectMgr.h" />
     <ClInclude Include="..\public\PSO.h" />
     <ClInclude Include="..\public\PSOMgr.h" />
@@ -45,6 +50,8 @@
     <ClInclude Include="..\public\RootSignatureMgr.h" />
     <ClInclude Include="..\public\Shader.h" />
     <ClInclude Include="..\public\Shader_Mgr.h" />
+    <ClInclude Include="..\public\Texture.h" />
+    <ClInclude Include="..\public\TextureMgr.h" />
     <ClInclude Include="..\public\Timer.h" />
     <ClInclude Include="..\public\Transform.h" />
     <ClInclude Include="..\public\UploadBuffer.hpp">
@@ -59,6 +66,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\public\;../\public\utilities\;</AdditionalIncludeDirectories>
     </ClCompile>
+    <ClCompile Include="..\private\Bone.cpp" />
     <ClCompile Include="..\private\Camera.cpp" />
     <ClCompile Include="..\private\ComponentMgr.cpp" />
     <ClCompile Include="..\private\Component.cpp" />
@@ -68,6 +76,9 @@
     <ClCompile Include="..\private\GameInstance.cpp" />
     <ClCompile Include="..\private\GameObject.cpp" />
     <ClCompile Include="..\private\Graphic_Dev.cpp" />
+    <ClCompile Include="..\private\MaterialMgr.cpp" />
+    <ClCompile Include="..\private\Mesh.cpp" />
+    <ClCompile Include="..\private\Model.cpp" />
     <ClCompile Include="..\private\ObjectMgr.cpp" />
     <ClCompile Include="..\private\PSO.cpp" />
     <ClCompile Include="..\private\PSOMgr.cpp" />
@@ -78,11 +89,14 @@
     <ClCompile Include="..\private\RootSignatureMgr.cpp" />
     <ClCompile Include="..\private\Shader.cpp" />
     <ClCompile Include="..\private\Shader_Mgr.cpp" />
+    <ClCompile Include="..\private\Texture.cpp" />
+    <ClCompile Include="..\private\TextureMgr.cpp" />
     <ClCompile Include="..\private\Timer.cpp" />
     <ClCompile Include="..\private\Transform.cpp" />
     <ClCompile Include="..\private\VIBuffer.cpp" />
     <ClCompile Include="..\private\VIBuffer_Geos.cpp" />
     <ClCompile Include="..\public\d3dUtil.cpp" />
+    <ClCompile Include="..\public\DDSTextureLoader.cpp" />
     <ClCompile Include="..\public\GeometryGenerator.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -193,6 +207,8 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>../ThirdPartyLib/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc140-mtd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -214,6 +230,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableUAC>false</EnableUAC>
+      <AdditionalLibraryDirectories>../ThirdPartyLib/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

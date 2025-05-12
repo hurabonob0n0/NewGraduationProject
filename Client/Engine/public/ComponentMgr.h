@@ -3,6 +3,7 @@
 #include "Component.h"
 #include "VIBuffer_Geos.h"
 #include "Transform.h"
+#include "Model.h"
 
 
 class CComponentMgr : public CBase
